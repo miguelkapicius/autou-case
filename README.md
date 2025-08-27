@@ -1,4 +1,4 @@
-# AutoU Assistente de Email
+# AutoU Case
 
 Uma aplicação FastAPI que utiliza a API Gemini do Google para classificar emails e sugerir respostas profissionais. A aplicação pode processar texto diretamente ou extrair texto de arquivos TXT e PDF enviados.
 
