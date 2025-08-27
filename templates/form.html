@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../static/css/output.css" />
+    <title>AutoU | Envio de Email</title>
+  </head>
+  <body
+    class="bg-gradient-to-br from-zinc-950 via-neutral-900 to-stone-950 min-h-screen antialiased text-zinc-200"
+  >
+    <header class="flex items-center justify-center h-20 w-full">
+      <img
+        draggable="false"
+        src="static/assets/logo.png"
+        alt="AutoU Logo"
+        class="w-32"
+      />
+    </header>
+    <main class="space-y-3 mt-12">
+      <section
+        id="formSection"
+        class="bg-zinc-900 text-card-foreground flex flex-col gap-6 rounded-xl py-6 shadow-sm max-w-3xl mx-auto p-6"
+      >
+        <div
+          class="absolute size-full left-0 top-0 bg-zinc-950/10 backdrop-blur-sm p-4 rounded-xl -z-50"
+        ></div>
+
+        <form
+          id="emailForm"
+          enctype="multipart/form-data"
+          class="w-full rounded-xl space-y-6"
+        >
+          <div class="flex flex-col space-y-4">
+            <label class="font-medium tracking-tight" for="message"
+              >Mensagem</label
+            >
+            <textarea
+              class="border-zinc-800 placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 flex field-sizing-content min-h-16 w-full rounded-md border bg-transparent px-3 py-2 text-base shadow-xs transition-[color,box-shadow] outline-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm resize-none h-96"
+              name="message"
+              id="message"
+            ></textarea>
+          </div>
+          <div class="flex items-end justify-between">
+            <div class="space-y-3">
+              <label
+                for="file-input"
+                class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50"
+                >Selecione um arquivo</label
+              >
+              <input
+                id="file-input"
+                class="p-0 pe-3 file:me-3 file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-zinc-800/30 border-zinc-800 flex h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
+                type="file"
+              />
+            </div>
+            <button
+              class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground shadow-xs hover:bg-primary/90 h-10 rounded-md px-6 has-[>svg]:px-4"
+              type="submit"
+            >
+              Enviar
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <section
+        id="reply-skeleton"
+        class="bg-accent animate-pulse rounded-md h-96 max-w-3xl w-full mx-auto p-6 hidden"
+      ></section>
+
+      <section
+        id="reply-section"
+        class="bg-zinc-800 rounded-md min-h-96 max-w-3xl w-full mx-auto p-6 hidden flex-col gap-3"
+      >
+        <div class="flex items-center mb-2">
+          <span
+            id="classification"
+            class="inline-flex items-center justify-center rounded-md border px-2 py-0.5 text-xs font-medium w-fit whitespace-nowrap shrink-0 [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden text-foreground [a&]:hover:bg-accent [a&]:hover:text-accent-foreground"
+          ></span>
+          <button
+            id="copy-button"
+            class="ml-4 inline-flex items-center justify-center rounded-md border px-2 py-0.5 text-xs font-medium w-fit whitespace-nowrap shrink-0 [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden text-foreground bg-primary shadow-xs hover:bg-primary/90"
+          >
+            <img src="static/assets/copy.svg" alt="copiar" class="size-4" />
+          </button>
+        </div>
+        <pre
+          id="reply-suggest"
+          class="text-sm font-medium font-sans border p-2 rounded-md h-full whitespace-pre-wrap"
+        ></pre>
+        <button
+          id="back-button"
+          class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground shadow-xs hover:bg-primary/90 h-10 rounded-md px-6 has-[>svg]:px-4"
+          type="button"
+        >
+          Voltar
+        </button>
+      </section>
+    </main>
+  </body>
+</html>
+
+<script>
+  const formSection = document.getElementById("formSection");
+  const replySkeleton = document.getElementById("reply-skeleton");
+  const replySection = document.getElementById("reply-section");
+  const fileInput = document.getElementById("file-input");
+  const textarea = document.getElementById("message");
+  const button = document.querySelector("button[type='submit']");
+  const classification = document.getElementById("classification");
+  const replySuggest = document.getElementById("reply-suggest");
+  const copyButton = document.getElementById("copy-button");
+  const backButton = document.getElementById("back-button");
+
+  const STATES = {
+    DEFAULT: "default",
+    SENDING: "sending",
+    REPLIED: "replied",
+  };
+
+  let currentState = STATES.DEFAULT;
+
+  function setState(state) {
+    currentState = state;
+
+    formSection.classList.toggle("hidden", state !== STATES.DEFAULT);
+    replySkeleton.classList.toggle("hidden", state !== STATES.SENDING);
+    replySection.classList.toggle("hidden", state !== STATES.REPLIED);
+    replySection.classList.toggle("flex", state === STATES.REPLIED);
+    classification.classList.toggle("bg-destructive", state === STATES.REPLIED && classification.textContent === "Improdutivo");
+
+    const isDisabled = state === STATES.SENDING
+    textarea.disabled = isDisabled;
+    fileInput.disabled = isDisabled;
+    button.disabled = isDisabled || textarea.value.trim() === "";
+  }
+
+  fileInput.addEventListener("change", (e) => {
+    if (fileInput.files.length > 0) {
+      textarea.value = "";
+      textarea.disabled = true;
+    } else {
+      textarea.disabled = false;
+    }
+  });
+
+  document.getElementById("emailForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    setState(STATES.SENDING)
+    const file = fileInput.files[0];
+    button.textContent = "Enviando...";
+
+    try {
+      const formData = new FormData();
+      formData.append("message", textarea.value.trim());
+      if (file) formData.append("file", file);
+
+      const response = await fetch("/process", {
+        method: "POST",
+        body: formData,
+      });
+      const result = await response.json();
+
+      classification.textContent = result.classification;
+      replySuggest.textContent = result.suggested_reply;
+
+      setState(STATES.REPLIED);
+    } catch (err) {
+      console.error(err);
+      alert("Ocorreu um erro. Tente novamente.");
+    } finally {
+      button.textContent = "Enviar";
+    }
+  });
+
+  copyButton.addEventListener("click", () => {
+    copyToClipboard(replySuggest.textContent);
+  });
+
+  function copyToClipboard(text) {
+    navigator.clipboard.writeText(text).then(() => {
+      alert("Texto copiado para a área de transferência!");
+    }).catch(err => {
+      console.error('Erro ao copiar texto: ', err);
+    });
+  }
+
+  backButton.addEventListener("click", () => {
+    textarea.value = "";
+    fileInput.value = "";
+    replySuggest.textContent = "";
+    classification.textContent = "";
+    setState(STATES.DEFAULT);
+  });
+</script>
