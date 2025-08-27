@@ -30,7 +30,6 @@ async def classify_text(text: str) -> str:
             }
         ],
     )
-    print(response.text)
     return response.text
 
 
@@ -52,5 +51,4 @@ async def suggest_reply(text: str) -> str:
             }
         ],
     )
-    print(response.text)
     return response.text

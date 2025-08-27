@@ -1,13 +1,13 @@
 import io
 from fastapi import APIRouter, File, Form, Request, UploadFile
 from fastapi.templating import Jinja2Templates
-from gemini import classify_text, suggest_reply
-from npl import clean_text
+from app.services.gemini import classify_text, suggest_reply
+from app.core.npl import clean_text
 import asyncio
 from PyPDF2 import PdfReader
 
 router = APIRouter(tags=["process"])
-templates = Jinja2Templates(directory="templates")
+templates = Jinja2Templates(directory="app/templates")
 
 
 @router.get("/health") 
@@ -23,8 +23,6 @@ async def process(message: str = Form(...), file: UploadFile | None = File(None)
     
     user_text = message
     
-    print(file)
-    
     if file:
         contents = await file.read()
         if file.filename.endswith(".txt"):
@@ -39,7 +37,6 @@ async def process(message: str = Form(...), file: UploadFile | None = File(None)
         else:
             user_text = ""
 
-    print("USER: " + user_text)
     cleaned = clean_text(user_text)
     classification_task = asyncio.create_task(classify_text(cleaned))
     suggest_reply_task = asyncio.create_task(suggest_reply(cleaned))

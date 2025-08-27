@@ -3,16 +3,16 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="../static/css/output.css" />
+    <link rel="stylesheet" href="/static/css/output.css" />
     <title>AutoU | Envio de Email</title>
   </head>
   <body
-    class="bg-gradient-to-br from-zinc-950 via-neutral-900 to-stone-950 min-h-screen antialiased text-zinc-200"
+    class="bg-zinc-950 min-h-screen antialiased text-zinc-200"
   >
     <header class="flex items-center justify-center h-20 w-full">
       <img
         draggable="false"
-        src="static/assets/logo.png"
+        src="/static/assets/logo.png"
         alt="AutoU Logo"
         class="w-32"
       />
@@ -82,7 +82,7 @@
             id="copy-button"
             class="ml-4 inline-flex items-center justify-center rounded-md border px-2 py-0.5 text-xs font-medium w-fit whitespace-nowrap shrink-0 [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden text-foreground bg-primary shadow-xs hover:bg-primary/90"
           >
-            <img src="static/assets/copy.svg" alt="copiar" class="size-4" />
+            <img src="/static/assets/copy.svg" alt="copiar" class="size-4" />
           </button>
         </div>
         <pre
@@ -128,9 +128,12 @@
     replySkeleton.classList.toggle("hidden", state !== STATES.SENDING);
     replySection.classList.toggle("hidden", state !== STATES.REPLIED);
     replySection.classList.toggle("flex", state === STATES.REPLIED);
-    classification.classList.toggle("bg-destructive", state === STATES.REPLIED && classification.textContent === "Improdutivo");
+    classification.classList.toggle(
+      "bg-destructive",
+      state === STATES.REPLIED && classification.textContent === "Improdutivo"
+    );
 
-    const isDisabled = state === STATES.SENDING
+    const isDisabled = state === STATES.SENDING;
     textarea.disabled = isDisabled;
     fileInput.disabled = isDisabled;
     button.disabled = isDisabled || textarea.value.trim() === "";
@@ -148,7 +151,7 @@
   document.getElementById("emailForm").addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    setState(STATES.SENDING)
+    setState(STATES.SENDING);
     const file = fileInput.files[0];
     button.textContent = "Enviando...";
 
@@ -180,11 +183,14 @@
   });
 
   function copyToClipboard(text) {
-    navigator.clipboard.writeText(text).then(() => {
-      alert("Texto copiado para a área de transferência!");
-    }).catch(err => {
-      console.error('Erro ao copiar texto: ', err);
-    });
+    navigator.clipboard
+      .writeText(text)
+      .then(() => {
+        alert("Texto copiado para a área de transferência!");
+      })
+      .catch((err) => {
+        console.error("Erro ao copiar texto: ", err);
+      });
   }
 
   backButton.addEventListener("click", () => {
