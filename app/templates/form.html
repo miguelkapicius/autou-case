@@ -163,7 +163,7 @@
     const isDisabled = state === STATES.SENDING;
     textarea.disabled = isDisabled;
     fileInput.disabled = isDisabled;
-    button.disabled = isDisabled || textarea.value.trim() === "";
+    button.disabled = isDisabled
   }
 
   fileInput.addEventListener("change", (e) => {
